@@ -56,10 +56,10 @@ abstract class Polynomial():
   def value: Int        // implemented by extending classes
   def asString: String  // implemented by extending classes
 
-  def +(right: Polynomial): Polynomial = ??? // Task 3
+  def +(right: Polynomial): Polynomial = new Sum(this, right) // Task 3
     // sum of left (this) and right
 
-  def *(right: Polynomial): Polynomial = ??? // Task 3
+  def *(right: Polynomial): Polynomial = new Product(this, right) // Task 3
     // product of left (this) and right
 end Polynomial
 
@@ -67,27 +67,28 @@ end Polynomial
 class Variable(name: String) extends Polynomial():
    // Task 1
    // ??? record current value of this variable somewhere here
-   
-   def set(new_val: Int) = { ??? }  // set the value of this variable
-   def value = ???                // return current value of this variable
+   var currentValue = 0
+    
+   def set(new_val: Int) = { currentValue = new_val }  // set the value of this variable
+   def value = currentValue              // return current value of this variable
    def asString = name
 end Variable
 
 /** An extending class that implements polynomial constants. */
 class Constant(v: Int) extends Polynomial():
-   def value = ???   // Task 1
+   def value = v   // Task 1
    def asString = v.toString
 end Constant
 
 /** An extending class that implements polynomials that are the sum of two polynomials. */
 class Sum(left: Polynomial, right: Polynomial) extends Polynomial():
-   def value = ???   // Task 2
+   def value = left.value + right.value   // Task 2
    def asString = "(" ++ left.asString ++ "+" ++ right.asString ++ ")"
 end Sum
 
 /** An extending class that implements polynomials that are the product of two polynomials. */
 class Product(left: Polynomial, right: Polynomial) extends Polynomial():
-   def value = ???   // Task 2
+   def value = left.value * right.value   // Task 2
    def asString = "(" ++ left.asString ++ "*" ++ right.asString ++ ")"
 end Product
 
