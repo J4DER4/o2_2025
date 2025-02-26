@@ -37,6 +37,8 @@
 
 package sequences
 
+  import java.lang.module.ModuleDescriptor.Requires
+
   /*
    * Task 1:
    * Practice with _mapping_ a function over a sequence.
@@ -382,7 +384,7 @@ package sequences
    */
 
   def consecutivePositionPairs(z: Seq[Int]): Seq[(Int,Int)] =
-    ???
+    z.zip(z.tail) // tail copies and offsets the z by -1
 
   /*
    * Task 14:
@@ -420,7 +422,14 @@ package sequences
    */
 
   def firstMaxPos(a: Seq[Int]): Int =
-    ???
+    { require(a.nonEmpty) }
+    if (a.length == 1) 0
+    else {
+      a.zipWithIndex //pair each element with a running index as the second part
+        .reduce( //reduce to boil down to the max elem
+          (x,y) => if (x._1 >= y._1) x else y //x is the max so far and y is next elem in the seq
+        )._2 //return the index of the max
+    }
 
   /*
    * Task 15:
@@ -452,7 +461,9 @@ package sequences
    */
 
   def sumAndDifferenceSeqs(a: Seq[Int], b: Seq[Int]): (Seq[Int],Seq[Int]) =
-    ???
+    (a zip b) // after zip (a,b) 
+      .map(x => (x._1 + x._2, x._1 - x._2))
+      .unzip // unzips the pairs into two sequences
 
   /*
    * Task 16:
@@ -476,7 +487,7 @@ package sequences
    */
 
   def stringsConcatenated(in: Seq[String]): String =
-    ???
+    in.fold("")(_ + _)
 
 
 
