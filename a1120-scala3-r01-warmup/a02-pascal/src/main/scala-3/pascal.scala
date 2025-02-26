@@ -38,6 +38,13 @@ package pascal
   def getCoefficient(n: Int, k: Int): Int =
     require(n >= 0)
     require(0 <= k && k <= n)
-    ???
+    
+    if k == 0 || k == n then
+      1
+    else
+      getCoefficient(n-1, k-1) + getCoefficient(n-1, k)
+      //Derived from the formula:
+      // (n k) = (n-1 k-1) + (n-1 k)
   end getCoefficient
+  
 
