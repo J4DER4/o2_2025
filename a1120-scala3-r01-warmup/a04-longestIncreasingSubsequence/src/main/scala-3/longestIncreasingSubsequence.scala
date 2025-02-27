@@ -139,7 +139,7 @@ package longestIncreasingSubsequence
         bestEndIndex = i
       //proceed to loop through the next elem of s
 
-    //build the best seq from the best position
+    //build the best seq backwards from the best position
     //this is done by recursively checking the previous index until -1
     def getSeq(n: Int, i: Int): Seq[Int] =
       if i == -1 then Seq() // if no previous index then terminate
