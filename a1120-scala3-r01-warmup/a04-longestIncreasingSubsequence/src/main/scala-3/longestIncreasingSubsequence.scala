@@ -97,11 +97,53 @@
 
 package longestIncreasingSubsequence
 
+  import scala.compiletime.ops.double
+
   /** Returns a longest increasing subsequence in the sequence s.
    *  If there are multiple such subsequences, any subsequence will do. */
 
   def longestIncreasingSubsequence(s: Seq[Int]): Seq[Int] =
     require(s.length > 0)
-    ???
-  end longestIncreasingSubsequence
+    val n = s.length
 
+    var bestLen = 1
+    var bestEndIndex = 0
+
+    // array of different lengths for each elem of s
+      //each element storest the max len until that of s(i)
+      //set to 1 since each elem is atleast a seq of 1
+    val Lengths = Array.fill(n)(1)
+    // array of previous index for each elem of s
+      //each element stores the previous index for the best seq since it can jump over some elements
+      //has the len of s since the best can be the same as s but not longer
+      //set to -1 for detecting the termination for non n length seqs
+    val Previous = Array.fill(n)(-1)
+
+    //loop through each elem of s
+    for i <- 0 until n do // for each element of s
+      //loop through each elem of s before i to detect possble new sequence starts
+      for j <- 0 until i do // for each element between 0 and i
+
+        //check if the current elem is greater than the previous
+        // a.k.a s(j) can be part of a seq with s(i)
+        if s(i) > s(j) then
+          //proceed to check if this is a new length record for current s(i)
+          if Lengths(i) < Lengths(j) + 1 then //check that s(j) doesnt already have a longer seq
+            Lengths(i) = Lengths(j) + 1 //update the best accumulated length 
+            
+            Previous(i) = j //update the previous index path for current best s(i) 
+
+      //uodate the best seq length and position found so far
+      if Lengths(i) > bestLen then
+        bestLen = Lengths(i)
+        bestEndIndex = i
+      //proceed to loop through the next elem of s
+
+    //build the best seq from the best position
+    //this is done by recursively checking the previous index until -1
+    def getSeq(n: Int, i: Int): Seq[Int] =
+      if i == -1 then Seq() // if no previous index then terminate
+      else getSeq(n, Previous(i)) :+ s(i) // else recursively get the previous index and append current s(i) to the seq
+
+    getSeq(bestLen, bestEndIndex)
+  end longestIncreasingSubsequence
